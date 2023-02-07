@@ -15,7 +15,7 @@
 //		rFactor2-RaceStandings by cosimo
 //			https://github.com/cosimo/rFactor2-RaceStandings
 //		
-//	02/07/2023 - R.Jordan
+//	02/07/2023
 //
 /////
 
