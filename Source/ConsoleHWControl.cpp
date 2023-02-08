@@ -7,7 +7,7 @@
 //  These commands are documented by Studio397.  Some work, some don't.
 //	 https://www.studio-397.com/wp-content/uploads/2016/12/rFactorInternalsPlugin.pdf
 // 
-//	Code derrived from:
+//	Code derived from:
 //		Studio397 Example #7
 //			https://www.studio-397.com/modding-resources/
 //		rf2_Chat_transceiver by tappi287
@@ -121,48 +121,6 @@ void read_shared_memory_a(const HANDLE &h_map_file, std::string &result)
 
 	result = buf;
 	UnmapViewOfFile(buf);
-}
-
-
-extern "C" __declspec(dllexport)
-bool __cdecl Log_Extern(const char *msg)
-{
-	// This is for calling the DLL direct (without shared memory)
-	char lmsg[1024];
-#ifdef DEBUGLOGGING
-	sprintf_s(lmsg, "Opening handle");
-	::ConsoleHWControl::Log(lmsg);
-#endif
-
-	HANDLE e_h_map_file = INVALID_HANDLE_VALUE;
-	if (!::open_shared_memory_handle(e_h_map_file))
-	{
-#ifdef DEBUGLOGGING
-		sprintf_s(lmsg, "Could not open handle, is rF2 running?");
-		::ConsoleHWControl::Log(lmsg);
-#endif	
-		return false;
-	}
-
-#ifdef DEBUGLOGGING
-	sprintf_s(lmsg, "Writing to handle");
-	::ConsoleHWControl::Log(lmsg);
-#endif	
-
-	const bool write_success = ::write_shared_memory(e_h_map_file, msg);
-
-#ifdef DEBUGLOGGING
-	sprintf_s(lmsg, "Closing Handle");
-	::ConsoleHWControl::Log(lmsg);
-#endif
-	CloseHandle(e_h_map_file);
-
-#ifdef DEBUGLOGGING
-	sprintf_s(lmsg, "Handle closed");
-	::ConsoleHWControl::Log(lmsg);
-#endif
-
-	return write_success;
 }
 
 void ConsoleHWControl::Log(const char *msg)
